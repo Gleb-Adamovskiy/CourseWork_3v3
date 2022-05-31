@@ -32,4 +32,5 @@ class UsersService:
 
     def create(self, user):
         user['password'] = hash(user['password'])
-        return UserDAO(self.session).create(user)
+        return UserDAO(self.session).create(**user)
+    
