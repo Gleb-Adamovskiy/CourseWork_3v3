@@ -6,9 +6,18 @@ class UserDAO:
 
     def get_by_id(self, uid):
         return self.session.query(User).filter(User.id == uid).first()
-
+    
     def get_by_email(self, email):
-        return self.session.query(User).filter(User.email == email).first()
+        users = self.session.query(User)
+        if email:
+            users = users.filter(User.email == email).one()
+            data = {
+                'email': users.email,
+                'role': users.role,
+                'password': users.password,
+            }
+            return data
+        return None
 
     def create(self, **kwargs):
         self.session.add(User(**kwargs))
